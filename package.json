@@ -1,0 +1,20 @@
+{
+  "name": "pileup.electron",
+  "version": "1.0.0",
+  "description": "pileup.js wrapped with Electron as a desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/armish/pileup.electron.git"
+  },
+  "author": "B. Arman Aksoy <arman@aksoy.org>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/armish/pileup.electron/issues"
+  },
+  "homepage": "https://github.com/armish/pileup.electron#readme"
+}
