@@ -1,6 +1,6 @@
 {
   "name": "pileup.electron",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "pileup.js wrapped with Electron as a desktop app",
   "main": "main.js",
   "scripts": {
