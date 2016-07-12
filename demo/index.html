@@ -7,13 +7,9 @@
   </head>
 
   <body>
-
-    <h3>pileup.js demo</h3>
     <p>
-      pileup.js is a browser-based genome viewer.
-      Learn more about it <a href="https://github.com/hammerlab/pileup.js/">on GitHub</a>
-      or on the <a href="http://biorxiv.org/content/early/2016/01/26/036962">bioRxiv</a>.
-      Also check out the <a href="structural-variants.html">Structural Variants</a> demo.
+      <a href="structural-variants.html">Structural Variants demo</a>
+      || <button id="openFile" onclick="openFile();">Proof of Concept: load local BAM</button>
     </p>
 
     <div id="pileup"></div>
@@ -22,4 +18,76 @@
   <script src="dist/pileup.min.js"></script>
   <script src="examples/data.js"></script>
   <script src="examples/playground.js"></script>
+  <script>
+    const {dialog} = require('electron').remote;
+    const fs = require('fs');
+    function openFile () {
+     dialog.showOpenDialog(function (fileNames) {
+      if (fileNames === undefined) return;
+      var fileName = fileNames[0];
+      fs.readFile(fileName, 'utf-8', function (err, data) {
+        var bamSource = pileup.formats.bam({
+          url: fileName,
+          indexUrl: fileName + ".bai"
+        });
+
+        var sources = [
+          {
+            viz: pileup.viz.genome(),
+            isReference: true,
+            data: pileup.formats.twoBit({
+              url: 'http://www.biodalliance.org/datasets/hg19.2bit'
+            }),
+            name: 'Reference'
+          },
+          {
+            viz: pileup.viz.scale(),
+            name: 'Scale'
+          },
+          {
+            viz: pileup.viz.location(),
+            name: 'Location'
+          },
+          {
+            viz: pileup.viz.variants(),
+            data: pileup.formats.vcf({
+              url: 'test-data/snv.chr17.vcf'
+            }),
+            name: 'Variants'
+          },
+          {
+            viz: pileup.viz.genes(),
+            data: pileup.formats.bigBed({
+              url: 'http://www.biodalliance.org/datasets/ensGene.bb'
+            }),
+            name: 'Genes'
+          },
+          {
+            viz: pileup.viz.coverage(),
+            data: bamSource,
+            cssClass: 'normal',
+            name: 'Coverage'
+          },
+          {
+            viz: pileup.viz.pileup(),
+            data: bamSource,
+            cssClass: 'normal',
+            name: 'Alignments'
+          }
+        ];
+
+//        var range = {contig: 'chr17', start: 7512284, stop: 7512644};
+        range = {contig: 'chr1', start: 4930382, stop: 4946898};
+        p.destroy();
+        p = pileup.create(document.getElementById('pileup'), {
+          range: range,
+          tracks: sources
+        });
+
+        console.log("Filename: " + fileName);
+      });
+     });
+    }
+
+  </script>
 </html>
