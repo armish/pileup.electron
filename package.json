@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
+    "build": "electron-packager . PileUp --platform=all --arch=all --prune",
     "test": "test"
   },
   "repository": {
@@ -16,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/armish/pileup.electron/issues"
   },
-  "homepage": "https://github.com/armish/pileup.electron#readme"
+  "homepage": "https://github.com/armish/pileup.electron#readme",
+  "devDependencies": {
+    "electron-packager": "^7.3.0",
+    "electron-prebuilt": "^1.2.6"
+  }
 }
